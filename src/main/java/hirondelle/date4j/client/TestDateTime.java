@@ -278,7 +278,7 @@ public class TestDateTime extends GWTTestCase {
 
     public void testToString() {
         //Этот кусок работает!!!
-        /*testToString(SUCCESS, "2001-01-01 12:34:56.123456789", "2001-01-01 12:34:56.123456789");
+        testToString(SUCCESS, "2001-01-01 12:34:56.123456789", "2001-01-01 12:34:56.123456789");
         testToString(SUCCESS, "2001-01-01 12:34:56.12345678", "2001-01-01 12:34:56.12345678");
         testToString(SUCCESS, "2001-01-01 12:34:56.1234567", "2001-01-01 12:34:56.1234567");
         testToString(SUCCESS, "2001-01-01 12:34:56.123456", "2001-01-01 12:34:56.123456");
@@ -300,11 +300,11 @@ public class TestDateTime extends GWTTestCase {
         testToString(SUCCESS, "Humpday Jan 1, 2001 12:34:56.1234567890123456", "Humpday Jan 1, 2001 12:34:56.1234567890123456");
 
         testToString(FAIL, "2001-01-01", "2001-01-01 ");
-        testToString(FAIL, "2001-12-01", " 2001-12-01 ");*/
+        testToString(FAIL, "2001-12-01", " 2001-12-01 ");
 
         //date only
         testToString(SUCCESS, 2001, 1, 1, null, null, null, null, "2001-01-01");
-        /*testToString(SUCCESS, 2001, 1, 31, null, null, null, null, "2001-01-31");
+        testToString(SUCCESS, 2001, 1, 31, null, null, null, null, "2001-01-31");
         testToString(SUCCESS, 2001, 11, 30, null, null, null, null, "2001-11-30");
         testToString(SUCCESS, 1, 11, 30, null, null, null, null, "1-11-30");
         testToString(SUCCESS, 2001, 1, null, null, null, null, null, "2001-01");
@@ -323,7 +323,7 @@ public class TestDateTime extends GWTTestCase {
         testToString(SUCCESS, 2001, 1, 31, 13, null, 59, 123456789, "Y:2001 M:1 D:31 h:13 m:null s:59 f:123456789");
 
         //extra trailing space
-        testToString(FAIL, 2001, 1, 31, 13, 30, 59, 123456789, "2001-01-31 13:30:59.123456789 ");*/
+        testToString(FAIL, 2001, 1, 31, 13, 30, 59, 123456789, "2001-01-31 13:30:59.123456789 ");
     }
 
     public void testDayOfWeek() {

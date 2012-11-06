@@ -184,7 +184,7 @@ final class DateTimeFormatter {
         interpretInput(aDateTime);
         System.out.println("interpretInput(aDateTime);");
         String result= produceFinalOutput();
-        System.out.println("result посчитан");
+        System.out.println("result посчитан, result= "+result);
         return result;
     }
 
@@ -193,7 +193,7 @@ final class DateTimeFormatter {
      */
     private void findEscapedRanges() {
         MatchResult matcher = ESCAPED_RANGE.exec(fFormat);
-        while (matcher != null) {
+        if (matcher != null) {
             EscapedRange escapedRange = new EscapedRange();
             escapedRange.Start = matcher.getIndex(); //first pipe
             escapedRange.End = escapedRange.Start + matcher.getGroup(0).length() - 1; //second pipe
@@ -222,19 +222,29 @@ final class DateTimeFormatter {
      */
     private void interpretInput(DateTime aDateTime) {
         String format = fFormat;
+        System.out.println("format= "+format);
         for (String token : TOKENS) {
+            System.out.println("token= "+token);
             RegExp pattern = RegExp.compile(token);
+            System.out.println("pattern compiled ");
             MatchResult matcher = pattern.exec(format);
-            while (matcher != null) {
+            System.out.println("matcher executed ");
+            if (matcher != null) {
+                System.out.println("matcher!=null, зашли в вайл ");
                 InterpretedRange interpretedRange = new InterpretedRange();
                 interpretedRange.Start = matcher.getIndex();
+                System.out.println("matcher.getIndex() = "+interpretedRange.Start);
                 interpretedRange.End = interpretedRange.Start + matcher.getGroup(0).length() - 1;
+                System.out.println("interpretedRange.Start + matcher.getGroup(0).length() - 1 = "+interpretedRange.End);
                 if (!isInEscapedRange(interpretedRange)) {
+                    System.out.println("!isInEscapedRange(interpretedRange)");
                     interpretedRange.Text = interpretThe(matcher.getGroup(0), aDateTime);
+                    System.out.println("interpretThe(matcher.getGroup(0), aDateTime)= "+interpretedRange.Text);
                     fInterpretedRanges.add(interpretedRange);
                 }
             }
             format = format.replace(token, withCharDenotingAlreadyInterpreted(token));
+            System.out.println("format= "+format);
         }
         System.out.println("interpretInput(DateTime aDateTime) отработал!");
     }
@@ -262,11 +272,15 @@ final class DateTimeFormatter {
         int idx = 0;
         while (idx < fFormat.length()) {
             String letter = nextLetter(idx);
+            System.out.println("idx= "+idx);
+            System.out.println("letter= "+letter);
             InterpretedRange interpretation = getInterpretation(idx);
             if (interpretation != null) {
+                System.out.println("interpretation!=null");
                 result.append(interpretation.Text);
                 idx = interpretation.End;
             } else {
+                System.out.println("interpretation==null");
                 if (!ESCAPE_CHAR.equals(letter)) {
                     result.append(letter);
                 }

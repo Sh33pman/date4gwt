@@ -1123,7 +1123,7 @@ public final class DateTime implements Comparable<DateTime>, Serializable {
         System.out.println("зашел в метод формат!");
         DateTimeFormatter format = new DateTimeFormatter(aFormat);
         System.out.println("создал экземпляр DateTimeFormat!");
-        String result=format.format(this);
+        String result = format.format(this);
         System.out.println("format.format! резалт");
         return result;
     }
@@ -1217,12 +1217,17 @@ public final class DateTime implements Comparable<DateTime>, Serializable {
         } else {
             fromDate.setMinutes(0);
         }
+        if (getSecond() != null) {
+            fromDate.setSeconds(getSecond());
+        } else {
+            fromDate.setSeconds(0);
+        }
         //other items zeroed out here, since they don't matter for time zone calculations
-        fromDate.setSeconds(0);
-        fromDate.setMinutes(0);
+//        fromDate.setSeconds(0);
+//        fromDate.setMinutes(0);
 
-        fromDate.setTime(fromDate.getTime() - fromDate.getTimezoneOffset() * 60 * 1000 - 60 * 1000 * aFromTimeZone.getOffset(fromDate) + 60 * 1000 * aToTimeZone.getOffset(fromDate));
-        DateTime dateTime = new DateTime(fromDate.getYear(), fromDate.getMonth() + 1, fromDate.getDate(), fromDate.getHours(), fromDate.getMinutes(), fromDate.getSeconds(), 0);
+        fromDate.setTime(fromDate.getTime() + 60 * 1000 * aFromTimeZone.getOffset(fromDate) - 60 * 1000 * aToTimeZone.getOffset(fromDate));
+        DateTime dateTime = new DateTime(fromDate.getYear() + 1900, fromDate.getMonth() + 1, fromDate.getDate(), fromDate.getHours(), fromDate.getMinutes(), fromDate.getSeconds(), 0);
         return dateTime;
     }
 
@@ -1332,11 +1337,11 @@ public final class DateTime implements Comparable<DateTime>, Serializable {
         } else {
             System.out.println("элсе сработал!");
             String format = calcToStringFormat();
-            System.out.println("КалкТуСтрингФормат сработал! формат= "+format);
+            System.out.println("КалкТуСтрингФормат сработал! формат= " + format);
             if (format != null) {
                 System.out.println("формат не нал!");
                 result = format(calcToStringFormat());
-                System.out.println("формат(калк тустринг)= "+result);
+                System.out.println("формат(калк тустринг)= " + result);
             } else {
                 StringBuilder builder = new StringBuilder();
                 addToString("Y", fYear, builder);
