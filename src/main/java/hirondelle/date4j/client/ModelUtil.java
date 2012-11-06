@@ -258,13 +258,13 @@ final class ModelUtil {
    wrapper object to be included in <tt>aFields</tt>. For example, an <tt>int</tt> field would need 
    conversion to an {@link Integer} before being passed to this method.
   */
-//  static final int hashCodeFor(Object... aFields){
-//    int result = HASH_SEED;
-//    for(Object field: aFields){
-//      result = hash(result, field);
-//    }
-//    return result;
-//  }
+  static final int hashCodeFor(Object... aFields){
+    int result = HASH_SEED;
+    for(Object field: aFields){
+      result = hash(result, field);
+    }
+    return result;
+  }
 
   /**
    Initial seed value for a <tt>hashCode</tt>. 
@@ -315,24 +315,24 @@ final class ModelUtil {
    If <tt>aObject</tt> is an array, then each element may be a primitive 
    or a possibly-null object.
   */
-//  static int hash( int aSeed , Object aObject ) {
-//    int result = aSeed;
-//    if ( aObject == null) {
-//      result = hash(result, 0);
-//    }
-//    else if ( ! isArray(aObject) ) {
-//      result = hash(result, aObject.hashCode());
-//    }
-//    else {
-//      int length = Array.getLength(aObject);
-//      for ( int idx = 0; idx < length; ++idx ) {
-//        Object item = Array.get(aObject, idx);
-//        //recursive call!
-//        result = hash(result, item);
-//      }
-//    }
-//    return result;
-//  }
+  static int hash( int aSeed , Object aObject ) {
+    int result = aSeed;
+    if ( aObject == null) {
+      result = hash(result, 0);
+    }
+    else if ( ! isArray(aObject) ) {
+      result = hash(result, aObject.hashCode());
+    }
+    else {
+      int length = Array.getLength(aObject);
+      for ( int idx = 0; idx < length; ++idx ) {
+        Object item = Array.get(aObject, idx);
+        //recursive call!
+        result = hash(result, item);
+      }
+    }
+    return result;
+  }
   
   // EQUALS //
   
@@ -368,19 +368,19 @@ final class ModelUtil {
    further field-by-field examination is necessary. The caller must always perform a 
    check-for-null on the return value.</span>
   */
-//  static Boolean quickEquals(Object aThis, Object aThat){
-//    Boolean result = null;
-//    if ( aThis == aThat ) {
-//      result = Boolean.TRUE;
-//    }
-//    else {
-//      Class<?> thisClass = aThis.getClass();
-//      if ( ! thisClass.isInstance(aThat) ) {
-//        result = Boolean.FALSE;
-//      }
-//    }
-//    return result;
-//  }
+  static Boolean quickEquals(Object aThis, Object aThat){
+    Boolean result = null;
+    if ( aThis == aThat ) {
+      result = Boolean.TRUE;
+    }
+    else {
+      Class<?> thisClass = aThis.getClass();
+      if ( ! thisClass.isInstance(aThat) ) {
+        result = Boolean.FALSE;
+      }
+    }
+    return result;
+  }
   
   /**
    Return the result of comparing all significant fields.

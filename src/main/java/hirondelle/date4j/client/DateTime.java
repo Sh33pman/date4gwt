@@ -427,6 +427,7 @@ public final class DateTime implements Comparable<DateTime>, Serializable {
         int hour = date.getHours(); // 0..23
         int minute = date.getMinutes();
         int second = date.getSeconds();
+        int milliseconds = (int) date.getTime() % 1000;
         fIsAlreadyParsed = true;
         fYear = year;
         fMonth = month;
@@ -434,7 +435,7 @@ public final class DateTime implements Comparable<DateTime>, Serializable {
         fHour = hour;
         fMinute = minute;
         fSecond = second;
-        //fNanosecond = nanoseconds;
+        fNanosecond = milliseconds * 1000000;
         validateState();
     }
 
@@ -499,11 +500,8 @@ public final class DateTime implements Comparable<DateTime>, Serializable {
         int hour = date.getHours(); // 0..23
         int minute = date.getMinutes();
         int second = date.getSeconds();
-//TODO: милисек
-//    int milliseconds = calendar.get(Calendar.MILLISECOND);
-//    int nanoseconds = milliseconds * 1000 * 1000;
-
-        return new DateTime(year, month, day, hour, minute, second, 0);
+        int milliseconds = (int) (date.getTime() % 1000);
+        return new DateTime(year, month, day, hour, minute, second, 1000000 * milliseconds);
     }
 
     /**
@@ -611,7 +609,7 @@ public final class DateTime implements Comparable<DateTime>, Serializable {
         Integer hour = getHour() == null ? 0 : getHour();
         Integer minute = getMinute() == null ? 0 : getMinute();
         Integer second = getSecond() == null ? 0 : getSecond();
-        Integer nanos = getNanoseconds() == null ? 0 : getNanoseconds();
+        Integer nanoseconds = getNanoseconds() == null ? 0 : getNanoseconds();
 
         Date date = new Date();
         date.setYear(year - 1900);
@@ -620,6 +618,7 @@ public final class DateTime implements Comparable<DateTime>, Serializable {
         date.setHours(hour);
         date.setMinutes(minute);
         date.setSeconds(second);
+        date.setTime((long) (date.getTime() + nanoseconds / Math.pow(10, 6)));
 
 
         long millis = date.getTime();
@@ -974,12 +973,12 @@ public final class DateTime implements Comparable<DateTime>, Serializable {
     }
 
     /**
-     * Return this <tt>DateTime</tt> with the time portion coerced to '23:59:59.999999999'.
+     * Return this <tt>DateTime</tt> with the time portion coerced to '23:59:59.999'.
      * <P>Requires year-month-day to be present; if not, a runtime exception is thrown.
      */
     public DateTime getEndOfDay() {
         ensureHasYearMonthDay();
-        return getStartEndDateTime(fDay, 23, 59, 59, 999999999);
+        return getStartEndDateTime(fDay, 23, 59, 59, 999000000);
     }
 
     /**
@@ -999,7 +998,7 @@ public final class DateTime implements Comparable<DateTime>, Serializable {
      */
     public DateTime getEndOfMonth() {
         ensureHasYearMonthDay();
-        return getStartEndDateTime(getNumDaysInMonth(), 23, 59, 59, 999999999);
+        return getStartEndDateTime(getNumDaysInMonth(), 23, 59, 59, 999000000);
     }
 
     /**
@@ -1034,7 +1033,7 @@ public final class DateTime implements Comparable<DateTime>, Serializable {
      * @param aNumHours       positive, required, in range 0...9999
      * @param aNumMinutes     positive, required, in range 0...9999
      * @param aNumSeconds     positive, required, in range 0...9999
-     * @param aNumNanoseconds positive, required, in range 0...999999999
+     * @param aNumNanoseconds positive, required, in range 0...999
      */
     public DateTime plus(Integer aNumYears, Integer aNumMonths, Integer aNumDays, Integer aNumHours, Integer aNumMinutes, Integer aNumSeconds, Integer aNumNanoseconds, DayOverflow aDayOverflow) {
         DateTimeInterval interval = new DateTimeInterval(this, aDayOverflow);
@@ -1120,11 +1119,8 @@ public final class DateTime implements Comparable<DateTime>, Serializable {
      * @param aFormat uses the <a href="#FormattingLanguage">formatting mini-language</a> defined in the class comment.
      */
     public String format(String aFormat) {
-        System.out.println("зашел в метод формат!");
         DateTimeFormatter format = new DateTimeFormatter(aFormat);
-        System.out.println("создал экземпляр DateTimeFormat!");
         String result = format.format(this);
-        System.out.println("format.format! резалт");
         return result;
     }
 
@@ -1222,12 +1218,18 @@ public final class DateTime implements Comparable<DateTime>, Serializable {
         } else {
             fromDate.setSeconds(0);
         }
-        //other items zeroed out here, since they don't matter for time zone calculations
-//        fromDate.setSeconds(0);
-//        fromDate.setMinutes(0);
-
+        if (getNanoseconds() != null) {
+            long numberOfMillis = fromDate.getTime() % 1000;
+            long time = fromDate.getTime();
+            long actualMillis = (long) (getNanoseconds() / Math.pow(10, 6));
+            fromDate.setTime(time - numberOfMillis + actualMillis);
+        } else {
+            long numberOfMillis = fromDate.getTime() % 1000;
+            long time = fromDate.getTime();
+            fromDate.setTime(time - numberOfMillis);
+        }
         fromDate.setTime(fromDate.getTime() + 60 * 1000 * aFromTimeZone.getOffset(fromDate) - 60 * 1000 * aToTimeZone.getOffset(fromDate));
-        DateTime dateTime = new DateTime(fromDate.getYear() + 1900, fromDate.getMonth() + 1, fromDate.getDate(), fromDate.getHours(), fromDate.getMinutes(), fromDate.getSeconds(), 0);
+        DateTime dateTime = new DateTime(fromDate.getYear() + 1900, fromDate.getMonth() + 1, fromDate.getDate(), fromDate.getHours(), fromDate.getMinutes(), fromDate.getSeconds(), 1000000 * (int) (fromDate.getTime() % 1000));
         return dateTime;
     }
 
@@ -1266,28 +1268,35 @@ public final class DateTime implements Comparable<DateTime>, Serializable {
         return EQUAL;
     }
 
+
+    //TODO: equals и hashcode используют рефлексию
+
     /**
      * Equals method for this object.
      * <p/>
      * <P>Equality is determined by the 7 date-time elements (year..nanosecond).
      */
-//    @Override
-//    public boolean equals(Object aThat) {
-//    /*
-//     * Implementation note: it was considered branching this method, according to whether
-//     * the objects are already parsed. That was rejected, since maintaining 'synchronicity'
-//     * with hashCode would not then be possible, since hashCode is based only on one object,
-//     * not two.
-//     */
-//        ensureParsed();
-//        Boolean result = ModelUtil.quickEquals(this, aThat);
-//        if (result == null) {
-//            DateTime that = (DateTime) aThat;
-//            that.ensureParsed();
-//            result = ModelUtil.equalsFor(this.getSignificantFields(), that.getSignificantFields());
-//        }
-//        return result;
-//    }
+    @Override
+    public boolean equals(Object aThat) {
+    /*
+     * Implementation note: it was considered branching this method, according to whether
+     * the objects are already parsed. That was rejected, since maintaining 'synchronicity'
+     * with hashCode would not then be possible, since hashCode is based only on one object,
+     * not two.
+     */
+        ensureParsed();
+        boolean result;
+        if (this == aThat) {
+            return true;
+        }
+        if (!(aThat instanceof DateTime)) {
+            return false;
+        }
+        DateTime that = (DateTime) aThat;
+        that.ensureParsed();
+        result = ModelUtil.equalsFor(this.getSignificantFields(), that.getSignificantFields());
+        return result;
+    }
 
     /**
      * Hash code for this object.
@@ -1295,14 +1304,14 @@ public final class DateTime implements Comparable<DateTime>, Serializable {
      * <P> Uses the same 7 date-time elements (year..nanosecond) as used by
      * {@link #equals(Object)}.
      */
-//    @Override
-//    public int hashCode() {
-//        if (fHashCode == 0) {
-//            ensureParsed();
-//            fHashCode = ModelUtil.hashCodeFor(getSignificantFields());
-//        }
-//        return fHashCode;
-//    }
+    @Override
+    public int hashCode() {
+        if (fHashCode == 0) {
+            ensureParsed();
+            fHashCode = ModelUtil.hashCodeFor(getSignificantFields());
+        }
+        return fHashCode;
+    }
 
     /**
      * Intended for <i>debugging and logging</i> only.
@@ -1335,13 +1344,9 @@ public final class DateTime implements Comparable<DateTime>, Serializable {
         if (Util.textHasContent(fDateTime)) {
             result = fDateTime;
         } else {
-            System.out.println("элсе сработал!");
             String format = calcToStringFormat();
-            System.out.println("КалкТуСтрингФормат сработал! формат= " + format);
             if (format != null) {
-                System.out.println("формат не нал!");
                 result = format(calcToStringFormat());
-                System.out.println("формат(калк тустринг)= " + result);
             } else {
                 StringBuilder builder = new StringBuilder();
                 addToString("Y", fYear, builder);

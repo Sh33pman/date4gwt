@@ -178,9 +178,7 @@ public class TestDateTimeFormatter extends GWTTestCase {
         DateTimeParser parser = new DateTimeParser();
         DateTime dateTime = parser.parse(aDate);
         DateTimeFormatter formatter = new DateTimeFormatter(aFormat);
-        System.out.println("formatter отработал"+formatter);
         String result = formatter.format(dateTime);
-        System.out.println("formatter.format(dateTime)= "+result);
         if (aSuccess) {
             if (!result.equals(aExpectedResult)) {
                 throw new AssertionError("Expected:" + aExpectedResult + ", but result was:" + result);
