@@ -493,14 +493,16 @@ public final class DateTime implements Comparable<DateTime>, Serializable {
      */
     public static DateTime forInstant(long aMilliseconds, TimeZone aTimeZone) {
         Date date = new Date();
-        date.setTime(aMilliseconds + 1000 * 60 * aTimeZone.getOffset(date) - date.getTimezoneOffset() * 60 * 1000);
+        date.setTime(aMilliseconds);
+        date.setTime(date.getTime() - 1000 * 60 * aTimeZone.getOffset(date));
+        date.setTime(date.getTime() + 1000 * 60 * date.getTimezoneOffset());
         int year = date.getYear() + 1900;
         int month = date.getMonth() + 1; // 0-based
-        int day = date.getDay();
+        int day = date.getDate();
         int hour = date.getHours(); // 0..23
         int minute = date.getMinutes();
         int second = date.getSeconds();
-        int milliseconds = (int) (date.getTime() % 1000);
+        int milliseconds = (int) ((Math.abs(date.getTime())) % 1000);
         return new DateTime(year, month, day, hour, minute, second, 1000000 * milliseconds);
     }
 
@@ -612,18 +614,18 @@ public final class DateTime implements Comparable<DateTime>, Serializable {
         Integer nanoseconds = getNanoseconds() == null ? 0 : getNanoseconds();
 
         Date date = new Date();
-        int currentMillis=(int)(date.getTime()%1000);
-        date.setTime(date.getTime()-currentMillis);
+        int currentMillis = (int) (date.getTime() % 1000);
+        date.setTime(date.getTime() - currentMillis);
         date.setYear(year - 1900);
         date.setMonth(month - 1);
         date.setDate(day);
         date.setHours(hour);
         date.setMinutes(minute);
         date.setSeconds(second);
-        date.setTime(date.getTime()+(long)(nanoseconds/Math.pow(10, 6)));
+        date.setTime(date.getTime() + (long) (nanoseconds / Math.pow(10, 6)));
         int millisTimeZoneOffset = 1000 * 60 * aTimeZone.getOffset(date);
-        int millisLocalOffset = 1000*60*date.getTimezoneOffset();
-        date.setTime(date.getTime() + millisTimeZoneOffset-millisLocalOffset);
+        int millisLocalOffset = 1000 * 60 * date.getTimezoneOffset();
+        date.setTime(date.getTime() + millisTimeZoneOffset - millisLocalOffset);
 
         return date.getTime();
     }
@@ -1223,7 +1225,7 @@ public final class DateTime implements Comparable<DateTime>, Serializable {
             fromDate.setTime(time - numberOfMillis + actualMillis);
         } else {
             long numberOfMillis = fromDate.getTime() % 1000;
-            fromDate.setTime(fromDate.getTime()-numberOfMillis);
+            fromDate.setTime(fromDate.getTime() - numberOfMillis);
         }
         fromDate.setTime(fromDate.getTime() + 60 * 1000 * aFromTimeZone.getOffset(fromDate) - 60 * 1000 * aToTimeZone.getOffset(fromDate));
         DateTime dateTime = new DateTime(fromDate.getYear() + 1900, fromDate.getMonth() + 1, fromDate.getDate(), fromDate.getHours(), fromDate.getMinutes(), fromDate.getSeconds(), (1000000 * (int) (fromDate.getTime() % 1000)));
