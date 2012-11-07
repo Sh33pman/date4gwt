@@ -502,8 +502,19 @@ public final class DateTime implements Comparable<DateTime>, Serializable {
         int hour = date.getHours(); // 0..23
         int minute = date.getMinutes();
         int second = date.getSeconds();
-        int milliseconds = (int) ((Math.abs(date.getTime())) % 1000);
-        return new DateTime(year, month, day, hour, minute, second, 1000000 * milliseconds);
+        int sign;
+        if (date.getTime() < 0) {
+            sign = -1;
+        } else {
+            sign = 1;
+        }
+        int milliseconds = (int) (sign * ((Math.abs(date.getTime())) % 1000));
+        if (sign == 1) {
+            return new DateTime(year, month, day, hour, minute, second, 1000000 * milliseconds);
+        }
+        else{
+            return new DateTime(year, month, day, hour, minute, second, 1000000 * (1000+milliseconds));
+        }
     }
 
     /**

@@ -618,6 +618,8 @@ public class TestDateTime extends GWTTestCase {
         testGetMillis("1970-01-02 00:00:00.0", timeZone, 86400000);
         testGetMillis("1969-12-31 00:00:00.0", timeZone, -86400000);
         testGetMillis("1970-01-01 01:00", timeZone, 3600000);
+        testGetMillis("1969-12-31 00:00:00.1", timeZone, -86399900);
+        testGetMillis("1969-12-31 23:59:59.1", timeZone, -900);
 
         timeZone = TimeZone.createTimeZone(constants.americaMontreal());
 
