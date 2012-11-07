@@ -89,36 +89,36 @@ public class TestDateTime extends GWTTestCase {
         testStandardFormatCtorPlusParseFail("A");
         testStandardFormatCtorPlusParseFail(" ");
         testStandardFormatCtorPlusParseFail("");
-//        testStandardFormatCtorPlusParseFail("12345-01-01 23:40:19.123");
+        testStandardFormatCtorPlusParseFail("12345-01-01 23:40:19.123");
         testStandardFormatCtorPlusParseFail("0-01-01 23:40:19.123");
-//        testStandardFormatCtorPlusParseFail("2009-01-01 12h:40:19.123");
-//        testStandardFormatCtorPlusParseFail("2009-01-01 12 pm");
+        testStandardFormatCtorPlusParseFail("2009-01-01 12h:40:19.123");
+        testStandardFormatCtorPlusParseFail("2009-01-01 12 pm");
         testStandardFormatCtorPlusParseFail("2009-01-01 45:40:60");
-//        testStandardFormatCtorPlusParseFail("2009-01-01 16:40:19.123");
+        testStandardFormatCtorPlusParseFail("2009-01-01 16:40:19.123");
         testStandardFormatCtorPlusParseFail("2009-01-01 24:40:19.123");
         testStandardFormatCtorPlusParseFail("2009-01-01 16:60:19.123");
         testStandardFormatCtorPlusParseFail("2009-13-01 16:40:19.123");
         testStandardFormatCtorPlusParseFail("2009-01-32 16:40:19.123");
-//        testStandardFormatCtorPlusParseFail("-1-01-01 16:40:19.123");
+        testStandardFormatCtorPlusParseFail("-1-01-01 16:40:19.123");
 
 
-//        testStandardFormatCtorPlusParseFail("2009-1-01 16:40:19.123");
-//        testStandardFormatCtorPlusParseFail("2009-01-1 16:40:19.123");
+        testStandardFormatCtorPlusParseFail("2009-1-01 16:40:19.123");
+        testStandardFormatCtorPlusParseFail("2009-01-1 16:40:19.123");
         testStandardFormatCtorPlusParseFail("2009-01-01 6:40:19.123");
-//        testStandardFormatCtorPlusParseFail("2009-01-01 16:0:19.123");
-//        testStandardFormatCtorPlusParseFail("2009-01-01 16:40:1.123");
+        testStandardFormatCtorPlusParseFail("2009-01-01 16:0:19.123");
+        testStandardFormatCtorPlusParseFail("2009-01-01 16:40:1.123");
     }
 
     public void testCtorWithStringStandardFormatWithT() {
-//        testStandardFormatCtorPlusParseSuccess("2009-01-01T23:40:19.123456789", 2009, 1, 1, 23, 40, 19, 123);
-//        testStandardFormatCtorPlusParseSuccess("2009-01-01T23:40:19.12345678", 2009, 1, 1, 23, 40, 19, 123);
-//        testStandardFormatCtorPlusParseSuccess("2009-01-01T23:40:19.1234567", 2009, 1, 1, 23, 40, 19, 123);
-//        testStandardFormatCtorPlusParseSuccess("2009-01-01T23:40:19.123456", 2009, 1, 1, 23, 40, 19, 123);
-//        testStandardFormatCtorPlusParseSuccess("2009-01-01T23:40:19.12345", 2009, 1, 1, 23, 40, 19, 123);
-//        testStandardFormatCtorPlusParseSuccess("2009-01-01T23:40:19.1234", 2009, 1, 1, 23, 40, 19, 123);
-//        testStandardFormatCtorPlusParseSuccess("2009-01-01T23:40:19.123", 2009, 1, 1, 23, 40, 19, 123);
-//        testStandardFormatCtorPlusParseSuccess("2009-01-01T23:40:19.12", 2009, 1, 1, 23, 40, 19, 120);
-//        testStandardFormatCtorPlusParseSuccess("2009-01-01T23:40:19.1", 2009, 1, 1, 23, 40, 19, 100);
+        testStandardFormatCtorPlusParseSuccess("2009-01-01T23:40:19.123456789", 2009, 1, 1, 23, 40, 19, 123);
+        testStandardFormatCtorPlusParseSuccess("2009-01-01T23:40:19.12345678", 2009, 1, 1, 23, 40, 19, 123);
+        testStandardFormatCtorPlusParseSuccess("2009-01-01T23:40:19.1234567", 2009, 1, 1, 23, 40, 19, 123);
+        testStandardFormatCtorPlusParseSuccess("2009-01-01T23:40:19.123456", 2009, 1, 1, 23, 40, 19, 123);
+        testStandardFormatCtorPlusParseSuccess("2009-01-01T23:40:19.12345", 2009, 1, 1, 23, 40, 19, 123);
+        testStandardFormatCtorPlusParseSuccess("2009-01-01T23:40:19.1234", 2009, 1, 1, 23, 40, 19, 123);
+        testStandardFormatCtorPlusParseSuccess("2009-01-01T23:40:19.123", 2009, 1, 1, 23, 40, 19, 123);
+        testStandardFormatCtorPlusParseSuccess("2009-01-01T23:40:19.12", 2009, 1, 1, 23, 40, 19, 120);
+        testStandardFormatCtorPlusParseSuccess("2009-01-01T23:40:19.1", 2009, 1, 1, 23, 40, 19, 100);
         testStandardFormatCtorPlusParseSuccess("2009-01-01T23:40:19", 2009, 1, 1, 23, 40, 19, null);
         testStandardFormatCtorPlusParseSuccess("2009-01-01T23:40", 2009, 1, 1, 23, 40, null, null);
         testStandardFormatCtorPlusParseSuccess("2009-01-01T23", 2009, 1, 1, 23, null, null, null);
@@ -126,24 +126,24 @@ public class TestDateTime extends GWTTestCase {
         testStandardFormatCtorPlusParseSuccess("0009-01-01T23:40:19.123456789", 9, 1, 1, 23, 40, 19, 123);
         testStandardFormatCtorPlusParseSuccess("9-01-01T23:40:19.123456789", 9, 1, 1, 23, 40, 19, 123);
 
-//        testStandardFormatCtorPlusParseFail("2009-01-01A23:40:19.123");
-//        testStandardFormatCtorPlusParseFail("12345-01-01T23:40:19.123");
+        testStandardFormatCtorPlusParseFail("2009-01-01A23:40:19.123");
+        testStandardFormatCtorPlusParseFail("12345-01-01T23:40:19.123");
         testStandardFormatCtorPlusParseFail("0-01-01T23:40:19.123");
-//        testStandardFormatCtorPlusParseFail("2009-01-01T12h:40:19.123");
+        testStandardFormatCtorPlusParseFail("2009-01-01T12h:40:19.123");
         testStandardFormatCtorPlusParseFail("2009-01-01T12 pm");
         testStandardFormatCtorPlusParseFail("2009-01-01T45:40:60");
-//        testStandardFormatCtorPlusParseFail("2009-01-01T16:40:19.123");
+        testStandardFormatCtorPlusParseFail("2009-01-01T16:40:19.123");
         testStandardFormatCtorPlusParseFail("2009-01-01T24:40:19.123");
         testStandardFormatCtorPlusParseFail("2009-01-01T16:60:19.123");
         testStandardFormatCtorPlusParseFail("2009-13-01T16:40:19.123");
         testStandardFormatCtorPlusParseFail("2009-01-32T16:40:19.123");
-//        testStandardFormatCtorPlusParseFail("-1-01-01T16:40:19.123");
+        testStandardFormatCtorPlusParseFail("-1-01-01T16:40:19.123");
 
-//        testStandardFormatCtorPlusParseFail("2009-1-01 16:40:19.123");
-//        testStandardFormatCtorPlusParseFail("2009-01-1 16:40:19.123");
+        testStandardFormatCtorPlusParseFail("2009-1-01 16:40:19.123");
+        testStandardFormatCtorPlusParseFail("2009-01-1 16:40:19.123");
         testStandardFormatCtorPlusParseFail("2009-01-01 6:40:19.123");
-//        testStandardFormatCtorPlusParseFail("2009-01-01 16:0:19.123");
-//        testStandardFormatCtorPlusParseFail("2009-01-01 16:40:1.123");
+        testStandardFormatCtorPlusParseFail("2009-01-01 16:0:19.123");
+        testStandardFormatCtorPlusParseFail("2009-01-01 16:40:1.123");
     }
 
     public void testRangeYear() {
@@ -159,10 +159,10 @@ public class TestDateTime extends GWTTestCase {
         testRange(SUCCESS, "2300-01-01");
         testRange(SUCCESS, "7998-01-01");
 
-//        testRange(FAIL, "99999-01-01");
+        testRange(FAIL, "99999-01-01");
         testRange(FAIL, "0-01-01");
-//        testRange(FAIL, "10000-01-01");
-//        testRange(FAIL, "10001-01-01");
+        testRange(FAIL, "10000-01-01");
+        testRange(FAIL, "10001-01-01");
     }
 
     public void testRangeMonth() {
@@ -222,10 +222,10 @@ public class TestDateTime extends GWTTestCase {
         testRange(SUCCESS, "2009-01-01 23:59:59.123");
         testRange(SUCCESS, "2009-01-01 23:59:59.999");
 
-//        testRange(FAIL, "2009-01-01 23:59:59.999");
-//        testRange(FAIL, "2009-01-01 23:59:59.000");
-//        testRange(FAIL, "2009-01-01 23:59:59.000");
-//        testRange(FAIL, "2009-01-01 23:59:59.123");
+        testRange(FAIL, "2009-01-01 23:59:59.999");
+        testRange(FAIL, "2009-01-01 23:59:59.000");
+        testRange(FAIL, "2009-01-01 23:59:59.000");
+        testRange(FAIL, "2009-01-01 23:59:59.123");
     }
 
     public void testMonthOverflow() {
@@ -557,12 +557,9 @@ public class TestDateTime extends GWTTestCase {
         TimeZoneConstants constants = GWT.create(TimeZoneConstants.class);
         TimeZone from = TimeZone.createTimeZone(constants.americaHalifax());
         TimeZone to = TimeZone.createTimeZone(constants.americaMontreal());
-        testChangeTimeZone("2010-01-15 18:13:59.123", "2010-01-15 17:13:59.123000000", from, to);
-        testChangeTimeZone("2010-01-15 18:13:59.1", "2010-01-15 17:13:59.100000000", from, to);
+        testChangeTimeZone("2010-01-15 18:13:59.123", "2010-01-15 17:13:59.123", from, to);
+        testChangeTimeZone("2010-01-15 18:13:59.1", "2010-01-15 17:13:59.1", from, to);
         testChangeTimeZone("2010-01-15 18:13:59", "2010-01-15 17:13:59", from, to);
-        testChangeTimeZone("2010-01-15 01:13:59", "2010-01-15 00:13:59", from, to);
-        testChangeTimeZone("2010-01-15 00:13:59", "2010-01-14 23:13:59", from, to);
-        testChangeTimeZone("2010-01-15 23:13:59", "2010-01-15 22:13:59", from, to);
         testChangeTimeZone("2010-01-15 18:13", "2010-01-15 17:13", from, to);
         testChangeTimeZone("2010-01-15 18", "2010-01-15 17", from, to);
 
@@ -615,9 +612,9 @@ public class TestDateTime extends GWTTestCase {
         testGetMillis("1970-01-02", timeZone, 86400000);
         testGetMillis("1969-12-31", timeZone, -86400000);
         testGetMillis("1970-01-01 00:00:00.0", timeZone, 0);
-//        testGetMillis("1970-01-01 00:00:00.001", timeZone, 1);
-//        testGetMillis("1970-01-01 00:00:00.1", timeZone, 100);
-//        testGetMillis("1970-01-01 00:00:01.0", timeZone, 1000);
+        testGetMillis("1970-01-01 00:00:00.001", timeZone, 1);
+        testGetMillis("1970-01-01 00:00:00.1", timeZone, 100);
+        testGetMillis("1970-01-01 00:00:01.0", timeZone, 1000);
         testGetMillis("1970-01-02 00:00:00.0", timeZone, 86400000);
         testGetMillis("1969-12-31 00:00:00.0", timeZone, -86400000);
         testGetMillis("1970-01-01 01:00", timeZone, 3600000);
@@ -629,9 +626,9 @@ public class TestDateTime extends GWTTestCase {
         timeZone = TimeZone.createTimeZone(0);
 
         //nanos are truncated, not rounded
-//        testGetMillis("1970-01-01 00:00:00.0001", timeZone, 0);
-//        testGetMillis("1970-01-01 00:00:00.000000001", timeZone, 0);
-//        testGetMillis("1970-01-01 00:00:00.001999", timeZone, 1);
+        testGetMillis("1970-01-01 00:00:00.0001", timeZone, 0);
+        testGetMillis("1970-01-01 00:00:00.000000001", timeZone, 0);
+        testGetMillis("1970-01-01 00:00:00.001999", timeZone, 1);
 
         //TO-DO
         //consistency of 2 related methods
@@ -676,7 +673,7 @@ public class TestDateTime extends GWTTestCase {
             assertTrue("h", eq(dt.getHour(), h));
             assertTrue("min", eq(dt.getMinute(), min));
             assertTrue("sec", eq(dt.getSecond(), sec));
-            assertTrue("frac", eq(dt.getNanoseconds(), frac*1000000));
+            assertTrue("frac", eq(frac*1000000, dt.getNanoseconds()));
         } catch (Throwable ex) {
             fail("Cannot construct/parse using standard format: " + Util.quote(aDate) + ex);
         }
@@ -978,6 +975,8 @@ public class TestDateTime extends GWTTestCase {
         //loss of precision :
         long millis = dt.getMilliseconds(aTimeZone);
         DateTime again = DateTime.forInstant(millis, aTimeZone);
+        dt.ensureParsed();
+        again.ensureParsed();
         if (dt.compareTo(again) != 0) {
             fail(aDateTime + " not the same as " + again.format("YYYY-MM-DD hh:mm:ss.fffffffff"));
         }
