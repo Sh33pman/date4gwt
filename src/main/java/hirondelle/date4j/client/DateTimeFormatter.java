@@ -434,7 +434,7 @@ final class DateTimeFormatter {
             if (fCustomLocalization != null) {
                 result = lookupCustomWeekdayFor(aWeekday);
             } else if (fLocale != null) {
-                result = lookupWeekdayFor(aWeekday);
+                result = lookupWeekdayFor(aWeekday-1);
             } else {
                 throw new IllegalArgumentException("Your date pattern requires either a Locale, or your own custom localizations for text:" + Util.quote(fFormat));
             }
@@ -464,7 +464,7 @@ final class DateTimeFormatter {
             fWeekdays.put(fLocale, weekdays);
         }
         result = fWeekdays.get(fLocale).get(aWeekday - 1); //list is 0-based
-        return "";
+        return result;
     }
 
     private String firstNChars(String aText, int aN) {

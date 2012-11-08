@@ -108,7 +108,7 @@ public class TestDateTimeFormatter extends GWTTestCase {
         testDate(SUCCESS, "2009-10-28 01:59:01", "YYYY-MMM-DD hh:mm:ss", LocaleInfo.getCurrentLocale(), "2009-Oct-28 01:59:01");
         testDate(SUCCESS, "2009-10-28 01:59:01", "YYYY-MMM-DD", LocaleInfo.getCurrentLocale(), "2009-Oct-28");
         testDate(SUCCESS, "2009-10-28 01:59:01", ":hh:mm:ss:", ":01:59:01:");
-        testDate(SUCCESS, "2009-04-28 13:59:01", "DD MMM, YYYY hh:mm:ss", LocaleInfo.getCurrentLocale(), "28 avr, 2009 13:59:01");
+        testDate(SUCCESS, "2009-04-28 13:59:01", "DD MMM, YYYY hh:mm:ss", LocaleInfo.getCurrentLocale(), "28 Apr, 2009 13:59:01");
 
 
         testDate(SUCCESS, "01:59:01.01", "hh:mm:ss.ff", "01:59:01.01");
