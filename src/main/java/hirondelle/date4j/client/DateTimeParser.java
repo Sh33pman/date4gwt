@@ -144,29 +144,17 @@ final class DateTimeParser {
             if (hour != null) {
                 fHour = Integer.valueOf(hour);
             }
-            else{
-                fHour=0;
-            }
             String minute = getGroup(matcher, 2, 6, 9);
             if (minute != null) {
                 fMinute = Integer.valueOf(minute);
-            }
-            else{
-                fMinute=0;
             }
             String second = getGroup(matcher, 3, 7);
             if (second != null) {
                 fSecond = Integer.valueOf(second);
             }
-            else{
-                fSecond=0;
-            }
             String decimalSeconds = getGroup(matcher, 4);
             if (decimalSeconds != null) {
                 fNanosecond = Integer.valueOf(convertToNanoseconds(decimalSeconds));
-            }
-            else{
-                fNanosecond=0;
             }
         } else {
             throw new DateTimeParser.UnknownDateTimeFormat("Unexpected format for time:" + aTime);

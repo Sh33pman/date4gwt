@@ -729,7 +729,7 @@ public class TestDateTime extends GWTTestCase {
             try {
                 DateTime dateTime = new DateTime(aDateTime);
                 dateTime.ensureParsed();
-                fail("Item out of range?:" + aDateTime);
+                fail("Item is not out of range:" + aDateTime);
             } catch (DateTime.ItemOutOfRange ex) {
                 //do nothing - expected
             } catch (DateTimeParser.UnknownDateTimeFormat ex) {

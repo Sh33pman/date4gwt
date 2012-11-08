@@ -511,9 +511,8 @@ public final class DateTime implements Comparable<DateTime>, Serializable {
         int milliseconds = (int) (sign * ((Math.abs(date.getTime())) % 1000));
         if (sign == 1) {
             return new DateTime(year, month, day, hour, minute, second, 1000000 * milliseconds);
-        }
-        else{
-            return new DateTime(year, month, day, hour, minute, second, 1000000 * (1000+milliseconds));
+        } else {
+            return new DateTime(year, month, day, hour, minute, second, 1000000 * (1000 + milliseconds));
         }
     }
 
@@ -1226,8 +1225,6 @@ public final class DateTime implements Comparable<DateTime>, Serializable {
         }
         if (getSecond() != null) {
             fromDate.setSeconds(getSecond());
-        } else {
-            fromDate.setSeconds(0);
         }
         if (getNanoseconds() != null) {
             long numberOfMillis = fromDate.getTime() % 1000;
@@ -1239,8 +1236,18 @@ public final class DateTime implements Comparable<DateTime>, Serializable {
             fromDate.setTime(fromDate.getTime() - numberOfMillis);
         }
         fromDate.setTime(fromDate.getTime() + 60 * 1000 * aFromTimeZone.getOffset(fromDate) - 60 * 1000 * aToTimeZone.getOffset(fromDate));
-        DateTime dateTime = new DateTime(fromDate.getYear() + 1900, fromDate.getMonth() + 1, fromDate.getDate(), fromDate.getHours(), fromDate.getMinutes(), fromDate.getSeconds(), (1000000 * (int) (fromDate.getTime() % 1000)));
-        return dateTime;
+        DateTime result=null;
+        if ((getNanoseconds() != null) && (getSecond() != null) && (getMinute() != null)) {
+            result = new DateTime(fromDate.getYear() + 1900, fromDate.getMonth() + 1, fromDate.getDate(), fromDate.getHours(), fromDate.getMinutes(), fromDate.getSeconds(), (1000000 * (int) (fromDate.getTime() % 1000)));
+        } else if((getNanoseconds() == null) && (getSecond() != null) && (getMinute() != null)){
+            result = new DateTime(fromDate.getYear() + 1900, fromDate.getMonth() + 1, fromDate.getDate(), fromDate.getHours(), fromDate.getMinutes(), fromDate.getSeconds(), null);
+        }
+        else if((getNanoseconds() == null) && (getSecond() == null) && (getMinute() != null)){
+            result = new DateTime(fromDate.getYear() + 1900, fromDate.getMonth() + 1, fromDate.getDate(), fromDate.getHours(), fromDate.getMinutes(), null, null);
+        } else if ((getNanoseconds() == null) && (getSecond() == null) && (getMinute() == null)) {
+            result = new DateTime(fromDate.getYear() + 1900, fromDate.getMonth() + 1, fromDate.getDate(), fromDate.getHours(), null, null, null);
+        }
+        return result;
     }
 
     /**
