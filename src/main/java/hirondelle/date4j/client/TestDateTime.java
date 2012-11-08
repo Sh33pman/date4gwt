@@ -94,7 +94,7 @@ public class TestDateTime extends GWTTestCase {
         testStandardFormatCtorPlusParseFail("2009-01-01 12h:40:19.123");
         testStandardFormatCtorPlusParseFail("2009-01-01 12 pm");
         testStandardFormatCtorPlusParseFail("2009-01-01 45:40:60");
-        testStandardFormatCtorPlusParseFail("2009-01-01 16:40:19.123");
+        testStandardFormatCtorPlusParseFail("2009-01-01 16:40:19.1234567890");
         testStandardFormatCtorPlusParseFail("2009-01-01 24:40:19.123");
         testStandardFormatCtorPlusParseFail("2009-01-01 16:60:19.123");
         testStandardFormatCtorPlusParseFail("2009-13-01 16:40:19.123");
@@ -126,7 +126,7 @@ public class TestDateTime extends GWTTestCase {
         testStandardFormatCtorPlusParseFail("2009-01-01T12h:40:19.123");
         testStandardFormatCtorPlusParseFail("2009-01-01T12 pm");
         testStandardFormatCtorPlusParseFail("2009-01-01T45:40:60");
-        testStandardFormatCtorPlusParseFail("2009-01-01T16:40:19.123");
+        testStandardFormatCtorPlusParseFail("2009-01-01T16:40:19.1234567890");
         testStandardFormatCtorPlusParseFail("2009-01-01T24:40:19.123");
         testStandardFormatCtorPlusParseFail("2009-01-01T16:60:19.123");
         testStandardFormatCtorPlusParseFail("2009-13-01T16:40:19.123");
