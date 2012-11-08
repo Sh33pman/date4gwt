@@ -216,10 +216,10 @@ public class TestDateTime extends GWTTestCase {
         testRange(SUCCESS, "2009-01-01 23:59:59.123");
         testRange(SUCCESS, "2009-01-01 23:59:59.999");
 
-        testRange(FAIL, "2009-01-01 23:59:59.999");
-        testRange(FAIL, "2009-01-01 23:59:59.000");
-        testRange(FAIL, "2009-01-01 23:59:59.000");
-        testRange(FAIL, "2009-01-01 23:59:59.123");
+        testRange(FAIL, "2009-01-01 23:59:59.9990000000");
+        testRange(FAIL, "2009-01-01 23:59:59.0000000000");
+        testRange(FAIL, "2009-01-01 23:59:59.0000000000");
+        testRange(FAIL, "2009-01-01 23:59:59.1230000000");
     }
 
     public void testMonthOverflow() {

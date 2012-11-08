@@ -110,7 +110,7 @@ final class DateTimeParser {
 
     private void parseDate(String aDate) {
         MatchResult matcher = DATE.exec(aDate);
-        if (matcher != null) {
+        if ((matcher != null)&&(matcher.getGroup(0).equals(aDate))) {
             String year = getGroup(matcher, 1, 4, 6);
             if (year != null) {
                 fYear = Integer.valueOf(year);
@@ -139,7 +139,7 @@ final class DateTimeParser {
 
     private void parseTime(String aTime) {
         MatchResult matcher = TIME.exec(aTime);
-        if (matcher != null) {
+        if ((matcher != null)&&(matcher.getGroup(0).equals(aTime))) {
             String hour = getGroup(matcher, 1, 5, 8, 10);
             if (hour != null) {
                 fHour = Integer.valueOf(hour);
