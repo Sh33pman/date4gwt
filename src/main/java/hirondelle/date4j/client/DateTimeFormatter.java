@@ -189,12 +189,26 @@ final class DateTimeFormatter {
      * Escaped ranges are bounded by a PAIR of {@link #ESCAPE_CHAR} characters.
      */
     private void findEscapedRanges() {
-        MatchResult matcher = ESCAPED_RANGE.exec(fFormat);
-        if (matcher != null) {
-            EscapedRange escapedRange = new EscapedRange();
-            escapedRange.Start = matcher.getIndex(); //first pipe
-            escapedRange.End = escapedRange.Start + matcher.getGroup(0).length() - 1; //second pipe
-            fEscapedRanges.add(escapedRange);
+//        MatchResult matcher = ESCAPED_RANGE.exec(fFormat);
+//        if (matcher != null) {
+//            EscapedRange escapedRange = new EscapedRange();
+//            escapedRange.Start = matcher.getIndex(); //first pipe
+//            escapedRange.End = escapedRange.Start + matcher.getGroup(0).length() - 1; //second pipe
+//            fEscapedRanges.add(escapedRange);
+//        }
+        for (int i = 0; i < fFormat.length() - 1; i++) {
+            if ('|' == fFormat.charAt(i)) {
+                for (int j = i + 1; j < fFormat.length() - 1; j++) {
+                    if ('|' == (fFormat.charAt(j))) {
+                        EscapedRange escapedRange = new EscapedRange();
+                        escapedRange.Start = i;
+                        escapedRange.End = j;
+                        fEscapedRanges.add(escapedRange);
+                        i = j;
+                        break;
+                    }
+                }
+            }
         }
     }
 
@@ -434,7 +448,7 @@ final class DateTimeFormatter {
             if (fCustomLocalization != null) {
                 result = lookupCustomWeekdayFor(aWeekday);
             } else if (fLocale != null) {
-                result = lookupWeekdayFor(aWeekday-1);
+                result = lookupWeekdayFor(aWeekday - 1);
             } else {
                 throw new IllegalArgumentException("Your date pattern requires either a Locale, or your own custom localizations for text:" + Util.quote(fFormat));
             }
