@@ -110,12 +110,6 @@ public class TestDateTime extends GWTTestCase {
     }
 
     public void testCtorWithStringStandardFormatWithT() {
-        testStandardFormatCtorPlusParseSuccess("2009-01-01T23:40:19.123456789", 2009, 1, 1, 23, 40, 19, 123);
-        testStandardFormatCtorPlusParseSuccess("2009-01-01T23:40:19.12345678", 2009, 1, 1, 23, 40, 19, 123);
-        testStandardFormatCtorPlusParseSuccess("2009-01-01T23:40:19.1234567", 2009, 1, 1, 23, 40, 19, 123);
-        testStandardFormatCtorPlusParseSuccess("2009-01-01T23:40:19.123456", 2009, 1, 1, 23, 40, 19, 123);
-        testStandardFormatCtorPlusParseSuccess("2009-01-01T23:40:19.12345", 2009, 1, 1, 23, 40, 19, 123);
-        testStandardFormatCtorPlusParseSuccess("2009-01-01T23:40:19.1234", 2009, 1, 1, 23, 40, 19, 123);
         testStandardFormatCtorPlusParseSuccess("2009-01-01T23:40:19.123", 2009, 1, 1, 23, 40, 19, 123);
         testStandardFormatCtorPlusParseSuccess("2009-01-01T23:40:19.12", 2009, 1, 1, 23, 40, 19, 120);
         testStandardFormatCtorPlusParseSuccess("2009-01-01T23:40:19.1", 2009, 1, 1, 23, 40, 19, 100);
@@ -123,8 +117,8 @@ public class TestDateTime extends GWTTestCase {
         testStandardFormatCtorPlusParseSuccess("2009-01-01T23:40", 2009, 1, 1, 23, 40, null, null);
         testStandardFormatCtorPlusParseSuccess("2009-01-01T23", 2009, 1, 1, 23, null, null, null);
 
-        testStandardFormatCtorPlusParseSuccess("0009-01-01T23:40:19.123456789", 9, 1, 1, 23, 40, 19, 123);
-        testStandardFormatCtorPlusParseSuccess("9-01-01T23:40:19.123456789", 9, 1, 1, 23, 40, 19, 123);
+        testStandardFormatCtorPlusParseSuccess("0009-01-01T23:40:19.123", 9, 1, 1, 23, 40, 19, 123);
+        testStandardFormatCtorPlusParseSuccess("9-01-01T23:40:19.123", 9, 1, 1, 23, 40, 19, 123);
 
         testStandardFormatCtorPlusParseFail("2009-01-01A23:40:19.123");
         testStandardFormatCtorPlusParseFail("12345-01-01T23:40:19.123");
@@ -591,7 +585,7 @@ public class TestDateTime extends GWTTestCase {
 
         from = TimeZone.createTimeZone(constants.europeLondon());
         to = TimeZone.createTimeZone(constants.americaStJohns());
-         //-3h30m, Newfoundland is offset by a non-integral number of hours
+        //-3h30m, Newfoundland is offset by a non-integral number of hours
         testChangeTimeZone("2010-01-15 15:00", "2010-01-15 11:30", from, to);
         testChangeTimeZone("2010-08-15 15:00", "2010-08-15 11:30", from, to);
         testChangeTimeZone("2010-08-15 23:00", "2010-08-15 19:30", from, to);
@@ -675,7 +669,10 @@ public class TestDateTime extends GWTTestCase {
             assertTrue("h", eq(dt.getHour(), h));
             assertTrue("min", eq(dt.getMinute(), min));
             assertTrue("sec", eq(dt.getSecond(), sec));
-            assertTrue("frac", eq(frac*1000000, dt.getNanoseconds()));
+            if (frac != null) {
+                frac = frac * 1000000;
+            }
+            assertTrue("frac", eq(dt.getNanoseconds(), frac));
         } catch (Throwable ex) {
             fail("Cannot construct/parse using standard format: " + Util.quote(aDate) + ex);
         }
@@ -780,7 +777,7 @@ public class TestDateTime extends GWTTestCase {
         //System.out.println("DateTime = " + dt.toString());
         if (aSuccess) {
             System.out.println("SUCCESS сработал!");
-            String result=dt.toString();
+            String result = dt.toString();
             System.out.println("резалт посчитан!");
             if (!result.equals(aExpected)) {
                 fail("Expected toString of " + aExpected + " but really is " + dt.toString());
