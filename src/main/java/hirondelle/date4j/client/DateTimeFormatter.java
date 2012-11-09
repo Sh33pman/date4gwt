@@ -196,9 +196,9 @@ final class DateTimeFormatter {
 //            escapedRange.End = escapedRange.Start + matcher.getGroup(0).length() - 1; //second pipe
 //            fEscapedRanges.add(escapedRange);
 //        }
-        for (int i = 0; i < fFormat.length() - 1; i++) {
+        for (int i = 0; i <= fFormat.length() - 1; i++) {
             if ('|' == fFormat.charAt(i)) {
-                for (int j = i + 1; j < fFormat.length() - 1; j++) {
+                for (int j = i + 1; j <= fFormat.length() - 1; j++) {
                     if ('|' == (fFormat.charAt(j))) {
                         EscapedRange escapedRange = new EscapedRange();
                         escapedRange.Start = i;
@@ -234,7 +234,7 @@ final class DateTimeFormatter {
     private void interpretInput(DateTime aDateTime) {
         String format = fFormat;
         for (String token : TOKENS) {
-            RegExp pattern = RegExp.compile(token);
+            /*RegExp pattern = RegExp.compile(token);
             MatchResult matcher = pattern.exec(format);
             if (matcher != null) {
                 InterpretedRange interpretedRange = new InterpretedRange();
@@ -243,6 +243,22 @@ final class DateTimeFormatter {
                 if (!isInEscapedRange(interpretedRange)) {
                     interpretedRange.Text = interpretThe(matcher.getGroup(0), aDateTime);
                     fInterpretedRanges.add(interpretedRange);
+                }
+            }*/
+            if (format.contains(token)) {
+                int i = 0;
+                while ((i < format.length() - 1)&&(format.indexOf(token,i)!=-1)) {
+                    InterpretedRange interpretedRange = new InterpretedRange();
+                    interpretedRange.Start = format.indexOf(token, i);
+                    interpretedRange.End = interpretedRange.Start + token.length()-1;
+                    i = interpretedRange.End;
+                    if (!isInEscapedRange(interpretedRange)) {
+                        interpretedRange.Text = interpretThe(token, aDateTime);
+                        fInterpretedRanges.add(interpretedRange);
+                    }
+                    if(interpretedRange.Start==interpretedRange.End){
+                        i++;
+                    }
                 }
             }
             format = format.replace(token, withCharDenotingAlreadyInterpreted(token));
