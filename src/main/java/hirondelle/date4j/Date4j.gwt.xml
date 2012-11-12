@@ -1,6 +1,0 @@
-<module>
-  <inherits name='com.google.gwt.user.User'/>
-  <inherits name='com.google.gwt.junit.JUnit'/>
-  <!--<source path="/"/>-->
-  <extend-property name="locale" values="en_CA"/>
-</module>
