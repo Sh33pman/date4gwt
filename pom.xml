@@ -4,14 +4,20 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>Date4gwt</groupId>
-    <artifactId>Date4gwt</artifactId>
+    <groupId>ru.finam.gwt</groupId>
+    <artifactId>date4gwt</artifactId>
+    <name>Date4gwt</name>
     <version>1.0-SNAPSHOT</version>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <project.build.sourceDirectory>C:\Users\svanin\Date4gwt\src\main\java\ru\finam\date4gwt\hirondelle\date4j</project.build.sourceDirectory>
-        <project.build.testSourceDirectory>C:\Users\svanin\Date4gwt\src\test\java\ru\finam\date4gwt\hirondelle\date4j</project.build.testSourceDirectory>
+        <project.build.sourceDirectory>${project.basedir}\src\main\java\ru\finam\date4gwt\hirondelle\date4j
+        </project.build.sourceDirectory>
+        <project.build.testSourceDirectory>${project.basedir}\src\test\java\ru\finam\date4gwt\hirondelle\date4j
+        </project.build.testSourceDirectory>
+        <project.output.classes>${project.basedir}\target\classes</project.output.classes>
     </properties>
+
+
 
 
     <dependencies>
@@ -40,6 +46,13 @@
         </dependency>
     </dependencies>
 
+    <distributionManagement>
+        <repository>
+            <id>internal.repo</id>
+            <name>finam</name>
+            <url>http://msk-projects2:81/artifactory/libs-snapshot-local</url>
+        </repository>
+    </distributionManagement>
 
     <build>
         <plugins>
@@ -78,6 +91,16 @@
                 </configuration>
             </plugin>
         </plugins>
+
+        <resources>
+            <resource>
+                <directory>src/main/java</directory>
+                <includes>
+                    <include>**/*.java</include>
+                </includes>
+                <filtering>false</filtering>
+            </resource>
+        </resources>
     </build>
 
 </project>
