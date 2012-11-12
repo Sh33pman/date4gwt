@@ -1,0 +1,19 @@
+*.class
+
+# Package Files #
+*.war
+*.ear
+
+# idea files #
+*.iml
+*.ipr
+*.iws
+.idea
+
+gwt-unitCache
+lib
+out
+target
+build
+www-test
+war
