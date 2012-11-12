@@ -1291,9 +1291,6 @@ public final class DateTime implements Comparable<DateTime>, Serializable {
         return EQUAL;
     }
 
-
-    //TODO: equals и hashcode используют рефлексию
-
     /**
      * Equals method for this object.
      * <p/>
@@ -1438,7 +1435,6 @@ public final class DateTime implements Comparable<DateTime>, Serializable {
         checkRange(fHour, 0, 23, "Hour");
         checkRange(fMinute, 0, 59, "Minute");
         checkRange(fSecond, 0, 59, "Second");
-        //FIXME надо сменить диапазон наносекунд
         checkRange(fNanosecond, 0, 999999999, "Nanosecond");
         checkNumDaysInMonth(fYear, fMonth, fDay);
     }

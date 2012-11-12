@@ -441,7 +441,6 @@ final class DateTimeFormatter {
         return fCustomLocalization.Months.get(aMonth - 1);
     }
 
-    //TODO сделать!!
     private String lookupMonthFor(Integer aMonth) {
         String result = EMPTY_STRING;
         if (!fMonths.containsKey(fLocale)) {
@@ -479,7 +478,6 @@ final class DateTimeFormatter {
         return fCustomLocalization.Weekdays.get(aWeekday - 1);
     }
 
-    //TODO делать
     private String lookupWeekdayFor(Integer aWeekday) {
         String result = EMPTY_STRING;
         if (!fWeekdays.containsKey(fLocale)) {
