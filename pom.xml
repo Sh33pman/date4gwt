@@ -18,8 +18,6 @@
     </properties>
 
 
-
-
     <dependencies>
         <dependency>
             <groupId>com.google.gwt</groupId>
@@ -97,6 +95,13 @@
                 <directory>src/main/java</directory>
                 <includes>
                     <include>**/*.java</include>
+                </includes>
+                <filtering>false</filtering>
+            </resource>
+            <resource>
+                <directory>src/main/java</directory>
+                <includes>
+                    <include>ru/finam/date4gwt/Date4gwt.gwt.xml</include>
                 </includes>
                 <filtering>false</filtering>
             </resource>
