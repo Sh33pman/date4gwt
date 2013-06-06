@@ -1520,6 +1520,70 @@ public final class DateTime implements Comparable<DateTime>, Serializable {
     }
 
     /**
+     * Get time unit for the date
+     *
+     * @param timeUnit YEAR, MONTH, DAY, HOUR, MINUTE, SECOND or NANOSECONDS
+     * @return value of the given time unit
+     */
+    public Integer get(Unit timeUnit) {
+        ensureParsed();
+        switch (timeUnit) {
+            case YEAR:
+                return fYear;
+            case MONTH:
+                return fMonth;
+            case DAY:
+                return fDay;
+            case HOUR:
+                return fHour;
+            case MINUTE:
+                return fMinute;
+            case SECOND:
+                return fSecond;
+            case NANOSECONDS:
+                return fNanosecond;
+            default:
+                throw new IllegalArgumentException("You should provide YEAR, MONTH, DAY, HOUR, MINUTE, SECOND or NANOSECONDS");
+        }
+    }
+
+    /**
+     * Set time unit for the date
+     *
+     * @param timeUnit YEAR, MONTH, DAY, HOUR, MINUTE, SECOND or NANOSECONDS
+     * @param value    new value for the time unit
+     */
+    public void set(Unit timeUnit, Integer value) {
+        ensureParsed();
+        switch (timeUnit) {
+            case YEAR:
+                fYear = value;
+                break;
+            case MONTH:
+                fMonth = value;
+                break;
+            case DAY:
+                fDay = value;
+                break;
+            case HOUR:
+                fHour = value;
+                break;
+            case MINUTE:
+                fMinute = value;
+                break;
+            case SECOND:
+                fSecond = value;
+                break;
+            case NANOSECONDS:
+                fNanosecond = value;
+                break;
+            default:
+                throw new IllegalArgumentException("You should provide YEAR, MONTH, DAY, HOUR, MINUTE, SECOND or NANOSECONDS");
+        }
+        validateState();
+    }
+
+    /**
      * The seven parts of a <tt>DateTime</tt> object. The <tt>DAY</tt> represents the day of the month (1..31), not the weekday.
      */
     public enum Unit {
