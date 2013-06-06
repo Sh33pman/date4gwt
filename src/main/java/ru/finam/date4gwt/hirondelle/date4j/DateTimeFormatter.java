@@ -22,7 +22,7 @@ import hirondelle.date4j.Util;
  * <P>The DateFormatSymbols class might be used to grab the locale-specific text, but the arrays it
  * returns are wonky and weird, so I have avoided it.
  */
-final class DateTimeFormatter {
+public final class DateTimeFormatter {
 
     /**
      * Special character used to escape the interpretation of parts of fFormat.
