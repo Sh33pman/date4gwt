@@ -1,6 +1,6 @@
 package hirondelle.date4j;
 
-final class Util  {
+final class Util {
 
   static boolean textHasContent(String aText) {
     return (aText != null) && (aText.trim().length() > 0);

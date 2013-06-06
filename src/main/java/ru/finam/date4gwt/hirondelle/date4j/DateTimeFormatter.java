@@ -380,7 +380,7 @@ public final class DateTimeFormatter {
         return result;
     }
 
-    private String valueStr(Object aItem) {
+    private static String valueStr(Object aItem) {
         String result = EMPTY_STRING;
         if (aItem != null) {
             result = String.valueOf(aItem);
@@ -388,7 +388,7 @@ public final class DateTimeFormatter {
         return result;
     }
 
-    private String noCentury(String aItem) {
+    private static String noCentury(String aItem) {
         String result = EMPTY_STRING;
         if (Util.textHasContent(aItem)) {
             result = aItem.substring(2);
@@ -396,26 +396,26 @@ public final class DateTimeFormatter {
         return result;
     }
 
-    private String nanosWithLeadingZeroes(Integer aNanos) {
-        String result = valueStr(aNanos);
-        while (result.length() < 9) {
-            result = "0" + result;
+    private static String nanosWithLeadingZeroes(Integer aNanos) {
+        StringBuilder builder = new StringBuilder(valueStr(aNanos));
+        while (builder.length() < 9) {
+            builder.insert(0, '0');
         }
-        return result;
+        return builder.toString();
     }
 
     /**
      * Pad 0..9 with a leading zero.
      */
-    private String addLeadingZero(String aTimePart) {
-        String result = aTimePart;
+    private static String addLeadingZero(String aTimePart) {
+        StringBuilder builder = new StringBuilder(aTimePart);
         if (Util.textHasContent(aTimePart) && aTimePart.length() == 1) {
-            result = "0" + result;
+            builder.insert(0, '0');
         }
-        return result;
+        return builder.toString();
     }
 
-    private String firstThreeChars(String aText) {
+    private static String firstThreeChars(String aText) {
         String result = aText;
         if (Util.textHasContent(aText) && aText.length() >= 3) {
             result = aText.substring(0, 3);
@@ -509,7 +509,7 @@ public final class DateTimeFormatter {
     /**
      * Coerce the hour to match the number used in the 12-hour style.
      */
-    private Integer twelveHourStyle(Integer aHour) {
+    private static Integer twelveHourStyle(Integer aHour) {
         Integer result = aHour;
         if (aHour != null) {
             if (aHour == 0) {
@@ -591,8 +591,6 @@ public final class DateTimeFormatter {
         public String toString() {
             return "Start:" + Start + " End:" + End + " '" + Text + "'";
         }
-
-        ;
     }
 
     /**

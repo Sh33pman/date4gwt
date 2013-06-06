@@ -21,6 +21,7 @@ final class DateTimeParser {
      * Day: Group 3
      */
     private static final RegExp DATE = RegExp.compile("(\\d{1,4})-(\\d\\d)-(\\d\\d)|(\\d{1,4})-(\\d\\d)|(\\d{1,4})");
+
     /**
      * Gross pattern for times.
      * Detailed validation is done by DateTime.
@@ -31,7 +32,6 @@ final class DateTimeParser {
      * Microsecond:  Group 4
      */
     private static final String CL = "\\:"; //colon is a special character
-    // PRIVATE
     private static final String TT = "(\\d\\d)"; //colon is a special character
     private static final String NUM_DIGITS_FOR_FRACTIONAL_SECONDS = "9";
     private static final Integer NUM_DIGITS = Integer.valueOf(NUM_DIGITS_FOR_FRACTIONAL_SECONDS);
@@ -41,8 +41,10 @@ final class DateTimeParser {
             TT + CL + TT + "|" +
             TT
     );
+
     private static final String COLON = ":";
     private static final int THIRD_POSITION = 2;
+
     private Integer fYear;
     private Integer fMonth;
     private Integer fDay;
@@ -91,22 +93,19 @@ final class DateTimeParser {
      * Return the index of a space character, or of a 'T' character. If not found, return -1.
      */
     int getDateTimeSeparator(String aDateTime) {
-        String SPACE = " ";
-        int NOT_FOUND = -1;
-        int result = NOT_FOUND;
-        result = aDateTime.indexOf(SPACE);
-        if (result == NOT_FOUND) {
-            result = aDateTime.indexOf("T");
+        int result = aDateTime.indexOf(' ');
+        if (result == -1) {
+            result = aDateTime.indexOf('T');
         }
         return result;
     }
 
     private boolean hasColonInThirdPlace(String aDateTime) {
-        boolean result = false;
         if (aDateTime.length() >= THIRD_POSITION) {
-            result = COLON.equals(aDateTime.substring(THIRD_POSITION, THIRD_POSITION + 1));
+            return COLON.equals(aDateTime.substring(THIRD_POSITION, THIRD_POSITION + 1));
+        } else {
+            return false;
         }
-        return result;
     }
 
     private void parseDate(String aDate) {
@@ -129,7 +128,7 @@ final class DateTimeParser {
         }
     }
 
-    private String getGroup(MatchResult aMatcher, int... aGroupIds) {
+    private static String getGroup(MatchResult aMatcher, int... aGroupIds) {
         String result = null;
         for (int id : aGroupIds) {
             result = aMatcher.getGroup(id);
@@ -166,10 +165,10 @@ final class DateTimeParser {
      * Convert any number of decimals (1..9) into the form it would have taken if nanos had been used,
      * by adding any 0's to the right side.
      */
-    private String convertToNanoseconds(String aDecimalSeconds) {
+    private static String convertToNanoseconds(String aDecimalSeconds) {
         StringBuilder result = new StringBuilder(aDecimalSeconds);
         while (result.length() < NUM_DIGITS) {
-            result.append("0");
+            result.append('0');
         }
         return result.toString();
     }

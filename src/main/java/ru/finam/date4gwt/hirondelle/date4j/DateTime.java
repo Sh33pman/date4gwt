@@ -731,8 +731,7 @@ public final class DateTime implements Comparable<DateTime>, Serializable {
      */
     public Integer getModifiedJulianDayNumber() {
         ensureHasYearMonthDay();
-        int result = calculateJulianDayNumberAtNoon() - 1 - EPOCH_MODIFIED_JD;
-        return result;
+        return calculateJulianDayNumberAtNoon() - 1 - EPOCH_MODIFIED_JD;
     }
 
     /**
@@ -755,8 +754,7 @@ public final class DateTime implements Comparable<DateTime>, Serializable {
     public Integer getDayOfYear() {
         ensureHasYearMonthDay();
         int k = isLeapYear() ? 1 : 2;
-        Integer result = ((275 * fMonth) / 9) - k * ((fMonth + 9) / 12) + fDay - 30; // integer division
-        return result;
+        return ((275 * fMonth) / 9) - k * ((fMonth + 9) / 12) + fDay - 30; // integer division
     }
 
     /**
@@ -765,13 +763,11 @@ public final class DateTime implements Comparable<DateTime>, Serializable {
      */
     public Boolean isLeapYear() {
         ensureParsed();
-        Boolean result = null;
         if (isPresent(fYear)) {
-            result = isLeapYear(fYear);
+            return isLeapYear(fYear);
         } else {
             throw new MissingItem("Year is absent. Cannot determine if leap year.");
         }
-        return result;
     }
 
     /**
@@ -814,11 +810,9 @@ public final class DateTime implements Comparable<DateTime>, Serializable {
      * <tt>aThat</tt>; if not, a runtime exception is thrown.
      */
     public boolean isSameDayAs(DateTime aThat) {
-        boolean result = false;
         ensureHasYearMonthDay();
         aThat.ensureHasYearMonthDay();
-        result = (fYear.equals(aThat.fYear) && fMonth.equals(aThat.fMonth) && fDay.equals(aThat.fDay));
-        return result;
+        return (fYear.equals(aThat.fYear) && fMonth.equals(aThat.fMonth) && fDay.equals(aThat.fDay));
     }
 
     /**
@@ -1068,8 +1062,6 @@ public final class DateTime implements Comparable<DateTime>, Serializable {
         return interval.minus(aNumYears, aNumMonths, aNumDays, aNumHours, aNumMinutes, aNumSeconds, aNumNanoseconds);
     }
 
-    // PACKAGE-PRIVATE (for unit testing, mostly)
-
     /**
      * Return a new <tt>DateTime</tt> by adding an integral number of days to this one.
      * <p/>
@@ -1136,8 +1128,7 @@ public final class DateTime implements Comparable<DateTime>, Serializable {
      */
     public String format(String aFormat) {
         DateTimeFormatter format = new DateTimeFormatter(aFormat);
-        String result = format.format(this);
-        return result;
+        return format.format(this);
     }
 
     // PRIVATE
@@ -1298,6 +1289,12 @@ public final class DateTime implements Comparable<DateTime>, Serializable {
      */
     @Override
     public boolean equals(Object aThat) {
+        if (this == aThat) {
+            return true;
+        }
+        if (!(aThat instanceof  DateTime)) {
+            return false;
+        }
     /*
      * Implementation note: it was considered branching this method, according to whether
      * the objects are already parsed. That was rejected, since maintaining 'synchronicity'
@@ -1306,12 +1303,6 @@ public final class DateTime implements Comparable<DateTime>, Serializable {
      */
         ensureParsed();
         boolean result;
-        if (this == aThat) {
-            return true;
-        }
-        if (!(aThat instanceof DateTime)) {
-            return false;
-        }
         DateTime that = (DateTime) aThat;
         that.ensureParsed();
         result = ModelUtil.equalsFor(this.getSignificantFields(), that.getSignificantFields());
@@ -1360,7 +1351,7 @@ public final class DateTime implements Comparable<DateTime>, Serializable {
      */
     @Override
     public String toString() {
-        String result = "";
+        String result;
         if (Util.textHasContent(fDateTime)) {
             result = fDateTime;
         } else {
@@ -1400,8 +1391,7 @@ public final class DateTime implements Comparable<DateTime>, Serializable {
         int y = fYear;
         int m = fMonth;
         int d = fDay;
-        int result = (1461 * (y + 4800 + (m - 14) / 12)) / 4 + (367 * (m - 2 - 12 * ((m - 14) / 12))) / 12 - (3 * ((y + 4900 + (m - 14) / 12) / 100)) / 4 + d - 32075;
-        return result;
+        return (1461 * (y + 4800 + (m - 14) / 12)) / 4 + (367 * (m - 2 - 12 * ((m - 14) / 12))) / 12 - (3 * ((y + 4900 + (m - 14) / 12) / 100)) / 4 + d - 32075;
     }
 
     private void ensureHasYearMonthDay() {
@@ -1437,6 +1427,7 @@ public final class DateTime implements Comparable<DateTime>, Serializable {
         checkRange(fSecond, 0, 59, "Second");
         checkRange(fNanosecond, 0, 999999999, "Nanosecond");
         checkNumDaysInMonth(fYear, fMonth, fDay);
+        fIsAlreadyParsed = true;
     }
 
     private void checkRange(Integer aValue, int aMin, int aMax, String aName) {
@@ -1447,7 +1438,7 @@ public final class DateTime implements Comparable<DateTime>, Serializable {
         }
     }
 
-    private void checkNumDaysInMonth(Integer aYear, Integer aMonth, Integer aDay) {
+    private static void checkNumDaysInMonth(Integer aYear, Integer aMonth, Integer aDay) {
         if (hasYearMonthDay(aYear, aMonth, aDay) && aDay > getNumDaysInMonth(aYear, aMonth)) {
             throw new ItemOutOfRange("The day-of-the-month value '" + aDay + "' exceeds the number of days in the month: " + getNumDaysInMonth(aYear, aMonth));
         }
@@ -1471,7 +1462,7 @@ public final class DateTime implements Comparable<DateTime>, Serializable {
         validateState();
     }
 
-    private boolean hasYearMonthDay(Integer aYear, Integer aMonth, Integer aDay) {
+    private static boolean hasYearMonthDay(Integer aYear, Integer aMonth, Integer aDay) {
         return isPresent(aYear, aMonth, aDay);
     }
 
@@ -1479,14 +1470,14 @@ public final class DateTime implements Comparable<DateTime>, Serializable {
         return new Integer[]{fYear, fMonth, fDay, fHour, fMinute, fSecond, fNanosecond};
     }
 
-    private void addToString(String aName, Object aValue, StringBuilder aBuilder) {
-        aBuilder.append(aName + ":" + String.valueOf(aValue) + " ");
+    private static void addToString(String aName, Object aValue, StringBuilder aBuilder) {
+        aBuilder.append(aName).append(':').append(String.valueOf(aValue)).append(' ');
     }
 
     /**
      * Return true only if all the given arguments are non-null.
      */
-    private boolean isPresent(Object... aItems) {
+    private static boolean isPresent(Object... aItems) {
         boolean result = true;
         for (Object item : aItems) {
             if (item == null) {
@@ -1529,30 +1520,10 @@ public final class DateTime implements Comparable<DateTime>, Serializable {
     }
 
     /**
-     * Always treat de-serialization as a full-blown constructor, by
-     * validating the final state of the de-serialized object.
-     */
-//    private void readObject(ObjectInputStream aInputStream) throws ClassNotFoundException, IOException {
-//        //always perform the default de-serialization first
-//        aInputStream.defaultReadObject();
-//        //no mutable fields in this case
-//        validateState();
-//    }
-
-    /**
-     * This is the default implementation of writeObject.
-     * Customise if necessary.
-     */
-//    private void writeObject(ObjectOutputStream aOutputStream) throws IOException {
-//        //perform the default serialization for all non-transient, non-static fields
-//        aOutputStream.defaultWriteObject();
-//    }
-
-    /**
      * The seven parts of a <tt>DateTime</tt> object. The <tt>DAY</tt> represents the day of the month (1..31), not the weekday.
      */
     public enum Unit {
-        YEAR, MONTH, DAY, HOUR, MINUTE, SECOND, NANOSECONDS;
+        YEAR, MONTH, DAY, HOUR, MINUTE, SECOND, NANOSECONDS
     }
 
     /**
@@ -1612,7 +1583,7 @@ public final class DateTime implements Comparable<DateTime>, Serializable {
         /**
          * Throw a RuntimeException.
          */
-        Abort;
+        Abort
     }
 
     static final class ItemOutOfRange extends RuntimeException {
@@ -1621,10 +1592,6 @@ public final class DateTime implements Comparable<DateTime>, Serializable {
         ItemOutOfRange(String aMessage) {
             super(aMessage);
         }
-
-        ItemOutOfRange() {
-            super();
-        }
     }
 
     static final class MissingItem extends RuntimeException {
@@ -1632,10 +1599,6 @@ public final class DateTime implements Comparable<DateTime>, Serializable {
 
         MissingItem(String aMessage) {
             super(aMessage);
-        }
-
-        MissingItem() {
-            super();
         }
     }
 
