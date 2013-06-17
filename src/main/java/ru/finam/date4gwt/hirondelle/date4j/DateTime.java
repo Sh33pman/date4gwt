@@ -525,6 +525,10 @@ public final class DateTime implements Comparable<DateTime>, Serializable {
         return forInstant(System.currentTimeMillis(), aTimeZone);
     }
 
+    public static DateTime now() {
+        return now(TimeZone.getDefault());
+    }
+
     /**
      * Return the current date.
      * <P>As in {@link #now(TimeZone)}, but truncates the time portion, leaving only year-month-day.

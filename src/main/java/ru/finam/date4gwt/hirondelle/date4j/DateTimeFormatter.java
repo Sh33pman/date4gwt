@@ -172,7 +172,7 @@ public final class DateTimeFormatter {
     /**
      * Format a {@link DateTime}.
      */
-    String format(DateTime aDateTime) {
+    public String format(DateTime aDateTime) {
         fEscapedRanges = new ArrayList<EscapedRange>();
         fInterpretedRanges = new ArrayList<InterpretedRange>();
         findEscapedRanges();
