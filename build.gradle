@@ -1,0 +1,148 @@
+apply plugin: 'java'
+apply plugin: 'idea'
+apply plugin: 'maven'
+
+version = '1.4.4-SNAPSHOT'
+group = 'ru.finam.gwt'
+
+jar {
+    manifest {
+        attributes(
+                'Implementation-Title': 'Date4GWT',
+                'Implementation-Version': version,
+                'Implementation-Vendor': "Investment holding \"FINAM\" CJSC",
+                'Build-Date': new java.text.SimpleDateFormat("HH:mm:ss yyyy/MM/dd").format(new Date()),
+        )
+    }
+}
+
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    compile "com.google.gwt:gwt-dev:2.5.1"
+    compile "com.google.gwt:gwt-user:2.5.1"
+
+    testCompile 'junit:junit:4.10'  //TODO
+}
+
+task wrapper(type: Wrapper) {
+    gradleVersion = '1.6'
+}
+
+jar {
+    dependsOn classes
+    from project.sourceSets.main.allSource
+    includes = ['**/*']
+}
+
+task srcs(type: Jar, dependsOn: classes) {
+    classifier = 'sources'
+    from project.sourceSets.main.allSource
+}
+
+gwt = [
+        version: '2.5.1',
+        style: 'OBFUSCATED',
+        disableClassMetadata: true,
+        disableCastChecking: true,
+        generateCompileReport: ''
+]
+
+if (hasProperty('style')) {
+    gwt.style = style.toString().toUpperCase()
+}
+gwt.generateCompileReport = ''
+if (hasProperty('report')) {
+    gwt.generateCompileReport = report.toString()
+}
+gwt.moduleName = 'ru.finam.date4gwt.Date4gwt'
+
+classes.doLast {
+    def buildDir = "${project.buildDir}/gwt"
+    file(buildDir).mkdirs()
+    compileModule(buildDir, gwt.moduleName)
+}
+
+//compileGWT.inputs.source sourceSets.main.java.srcDirs
+//compileGWT.inputs.dir sourceSets.main.output.resourcesDir
+//compileGWT.outputs.dir buildDir
+
+def collectDependencies(dependency) {
+    def cp = []
+    cp.addAll(dependency.dependencyProject.sourceSets.main.java.srcDirs)
+    dependency.dependencyProject.configurations.compile.dependencies.
+            findAll{ Object o -> o instanceof ProjectDependency }.
+            each { ProjectDependency dep ->
+                cp.addAll(collectDependencies(dep))
+            }
+    return cp
+}
+
+void compileModule(buildDir, fullModuleName) {
+    def parameters = []
+    if (gwt.disableCastChecking) {
+        parameters += '-XdisableCastChecking'
+    }
+    if (gwt.disableClassMetadata) {
+        parameters += '-XdisableClassMetadata'
+    }
+    if (gwt.generateCompileReport == 'compile') {
+        parameters += '-compileReport'
+    } else if (gwt.generateCompileReport == 'soyc') {
+        parameters += '-XsoycDetailed'
+    }
+    def prettyMode = 'PRETTY' == gwt.style || 'DETAILED' == gwt.style
+    parameters += ['-optimize', prettyMode ? '1' : '9']
+    parameters += ['-localWorkers', '2']
+    parameters += ['-style', gwt.style]
+    if (!prettyMode) {
+//TODO        parameters += '-strict'
+        parameters += '-XenableClosureCompiler'
+    }
+    //TODO try it, can it be useful?
+//    parameters += ['-XfragmentMerge', '20']
+
+
+    def cp = []
+    cp += sourceSets.main.java.srcDirs            // Java source
+    cp += sourceSets.main.output.resourcesDir     // Generated resources
+    cp += sourceSets.main.output.classesDir       // Generated classes
+//    classpath += sourceSets.main.output.compileClasspath // Deps
+    cp += configurations.compile.files
+
+    configurations.compile.dependencies.
+            findAll{ Object o -> o instanceof ProjectDependency }.
+            each { ProjectDependency dependency ->
+                cp.addAll(collectDependencies(dependency))
+            }
+
+    javaexec {
+        classpath = project.files(cp)
+        main = 'com.google.gwt.dev.Compiler'
+        args = [
+                parameters,
+                '-workDir', "${buildDir}/work",
+                '-gen', "${buildDir}/generated",
+                '-extra', "${buildDir}/extras",
+                '-war', "${buildDir}/war",
+                fullModuleName
+        ].flatten()
+        systemProperties = ["gwt.persistentunitcachedir": buildDir]
+//        systemProperty = ["gwt.persistentunitcache", "false"]
+        maxHeapSize = '256M'
+    }
+}
+
+uploadArchives {
+    artifacts {
+        archives srcs
+    }
+    repositories {
+        ivy {
+            url("http://msk-projects2:81/artifactory/libs-snapshot-local")
+        }
+    }
+}

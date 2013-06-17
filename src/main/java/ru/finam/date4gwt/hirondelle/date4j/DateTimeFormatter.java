@@ -1,17 +1,10 @@
 package hirondelle.date4j;
 
-import com.google.gwt.i18n.client.LocaleInfo;
 import com.google.gwt.i18n.shared.DateTimeFormat;
 import com.google.gwt.regexp.shared.MatchResult;
 import com.google.gwt.regexp.shared.RegExp;
 
 import java.util.*;
-
-import hirondelle.date4j.DateTime;
-import hirondelle.date4j.Util;
-
-//import java.util.regex.Matcher;
-//import java.util.regex.Pattern;
 
 /**
  * Formats a {@link DateTime}, and implements {@link DateTime#format(String)}.
@@ -108,25 +101,25 @@ public final class DateTimeFormatter {
 
     // PRIVATE
     private final String fFormat;
-    private final LocaleInfo fLocale;
+    private final java.util.Locale fLocale;
     /**
      * Table mapping a Locale to the names of the months.
      * Initially empty, populated only when a specific Locale is needed for presenting such text.
      * Used for MMMM and MMM tokens.
      */
-    private final Map<LocaleInfo, List<String>> fMonths = new LinkedHashMap<LocaleInfo, List<String>>();
+    private final Map<java.util.Locale, List<String>> fMonths = new LinkedHashMap<java.util.Locale, List<String>>();
     /**
      * Table mapping a Locale to the names of the weekdays.
      * Initially empty, populated only when a specific Locale is needed for presenting such text.
      * Used for WWWW and WWW tokens.
      */
-    private final Map<LocaleInfo, List<String>> fWeekdays = new LinkedHashMap<LocaleInfo, List<String>>();
+    private final Map<java.util.Locale, List<String>> fWeekdays = new LinkedHashMap<java.util.Locale, List<String>>();
     /**
      * Table mapping a Locale to the text used to indicate a.m. and p.m.
      * Initially empty, populated only when a specific Locale is needed for presenting such text.
      * Used for the 'a' token.
      */
-    private final Map<LocaleInfo, List<String>> fAmPm = new LinkedHashMap<LocaleInfo, List<String>>();
+    private final Map<java.util.Locale, List<String>> fAmPm = new LinkedHashMap<java.util.Locale, List<String>>();
     private final CustomLocalization fCustomLocalization;
     private Collection<InterpretedRange> fInterpretedRanges;
     private Collection<EscapedRange> fEscapedRanges;
@@ -151,7 +144,7 @@ public final class DateTimeFormatter {
      * @param aLocale used to generate text for Month, Weekday, and AM-PM indicator; required only by patterns which return localized
      *                text, instead of numeric forms for date-time elements.
      */
-    DateTimeFormatter(String aFormat, LocaleInfo aLocale) {
+    DateTimeFormatter(String aFormat, java.util.Locale aLocale) {
         fFormat = aFormat;
         fLocale = aLocale;
         fCustomLocalization = null;

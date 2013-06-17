@@ -1,17 +1,10 @@
 package hirondelle.date4j;
 
-import com.google.gwt.i18n.client.LocaleInfo;
-import com.google.gwt.i18n.client.TimeZone;
-
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
-
-import hirondelle.date4j.DateTimeInterval;
-import hirondelle.date4j.DateTimeFormatter;
-import hirondelle.date4j.DateTimeParser;
-import hirondelle.date4j.Util;
-import hirondelle.date4j.ModelUtil;
+import java.util.Locale;
+import java.util.TimeZone;
 
 /**
  * Building block class for an immutable date-time, with no time zone.
@@ -494,13 +487,13 @@ public final class DateTime implements Comparable<DateTime>, Serializable {
      * <p/>
      * <P>Unfortunately, only millisecond precision is possible for this method.
      *
-     * @param aMilliseconds must be in the range corresponding to the range of dates supported by this class (year 1..9999); corresponds
+     * @param millis must be in the range corresponding to the range of dates supported by this class (year 1..9999); corresponds
      *                      to a millisecond instant on the timeline, measured from the epoch used by {@link java.util.Date}.
      */
-    public static DateTime forInstant(long aMilliseconds, TimeZone aTimeZone) {
+    public static DateTime forInstant(long millis, TimeZone tz) {
         Date date = new Date();
-        date.setTime(aMilliseconds);
-        date.setTime(date.getTime() - 1000 * 60 * aTimeZone.getOffset(date));
+        date.setTime(millis);
+        date.setTime(date.getTime() - 1000 * 60 * tz.getOffset(date.getTime()));
         date.setTime(date.getTime() + 1000 * 60 * date.getTimezoneOffset());
         int year = date.getYear() + 1900;
         int month = date.getMonth() + 1; // 0-based
@@ -639,7 +632,7 @@ public final class DateTime implements Comparable<DateTime>, Serializable {
         date.setMinutes(minute);
         date.setSeconds(second);
         date.setTime(date.getTime() + (long) (nanoseconds / Math.pow(10, 6)));
-        int millisTimeZoneOffset = 1000 * 60 * aTimeZone.getOffset(date);
+        int millisTimeZoneOffset = 1000 * 60 * aTimeZone.getOffset(date.getTime());
         int millisLocalOffset = 1000 * 60 * date.getTimezoneOffset();
         date.setTime(date.getTime() + millisTimeZoneOffset - millisLocalOffset);
 
@@ -1146,11 +1139,11 @@ public final class DateTime implements Comparable<DateTime>, Serializable {
      * <P>If months and weekdays are output as numbers, you are encouraged to use {@link #format(String)} instead.
      *
      * @param aFormat uses the <a href="#FormattingLanguage">formatting mini-language</a> defined in the class comment.
-     * @param aLocale used to generate text for Month, Weekday and AM/PM indicator; required only by patterns which return localized
+     * @param locale used to generate text for Month, Weekday and AM/PM indicator; required only by patterns which return localized
      *                text, instead of numeric forms.
      */
-    public String format(String aFormat, LocaleInfo aLocale) {
-        DateTimeFormatter format = new DateTimeFormatter(aFormat, aLocale);
+    public String format(String aFormat, Locale locale) {
+        DateTimeFormatter format = new DateTimeFormatter(aFormat, locale);
         return format.format(this);
     }
 
@@ -1232,7 +1225,7 @@ public final class DateTime implements Comparable<DateTime>, Serializable {
             long numberOfMillis = fromDate.getTime() % 1000;
             fromDate.setTime(fromDate.getTime() - numberOfMillis);
         }
-        fromDate.setTime(fromDate.getTime() + 60 * 1000 * aFromTimeZone.getOffset(fromDate) - 60 * 1000 * aToTimeZone.getOffset(fromDate));
+        fromDate.setTime(fromDate.getTime() + 60 * 1000 * aFromTimeZone.getOffset(fromDate.getTime()) - 60 * 1000 * aToTimeZone.getOffset(fromDate.getTime()));
         DateTime result=null;
         if ((getNanoseconds() != null) && (getSecond() != null) && (getMinute() != null)) {
             result = new DateTime(fromDate.getYear() + 1900, fromDate.getMonth() + 1, fromDate.getDate(), fromDate.getHours(), fromDate.getMinutes(), fromDate.getSeconds(), (1000000 * (int) (fromDate.getTime() % 1000)));

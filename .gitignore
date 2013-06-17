@@ -1,3 +1,6 @@
+.gradle/
+build/
+
 *.class
 
 # Package Files #
@@ -10,10 +13,7 @@
 *.iws
 .idea
 
-gwt-unitCache
 lib
 out
 target
-build
 www-test
-war
