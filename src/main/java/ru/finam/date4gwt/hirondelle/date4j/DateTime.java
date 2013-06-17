@@ -744,6 +744,18 @@ public final class DateTime implements Comparable<DateTime>, Serializable {
     }
 
     /**
+     * Return an index for the weekday for this <tt>DateTime</tt> starting from Monday.
+     * Returns 1..7 for Monday..Sunday.
+     * <P>Requires year-month-day to be present; if not, a runtime exception is thrown.
+     */
+    public Integer getWeekDayFromMonday() {
+        ensureHasYearMonthDay();
+        int dayNumber = calculateJulianDayNumberAtNoon();
+        int index = dayNumber % 7;
+        return index + 1;
+    }
+
+    /**
      * Return an integer in the range 1..366, representing a count of the number of days from the start of the year.
      * January 1 is counted as day 1.
      * <P>Requires year-month-day to be present; if not, a runtime exception is thrown.
