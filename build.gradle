@@ -141,8 +141,11 @@ uploadArchives {
         archives srcs
     }
     repositories {
-        ivy {
-            url("http://msk-projects2:81/artifactory/libs-snapshot-local")
+//        ivy {
+//            url("http://msk-projects2:81/artifactory/libs-snapshot-local")
+//        }
+        mavenDeployer {
+            repository(url:"http://msk-projects2:81/artifactory/libs-snapshot-local")
         }
     }
 }
