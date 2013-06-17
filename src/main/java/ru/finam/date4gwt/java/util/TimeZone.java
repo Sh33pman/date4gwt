@@ -29,7 +29,7 @@ public final class TimeZone {
     }
 
     public int getOffset(long date) {
-        return 0;//TODO
+        throw new UnsupportedOperationException();
     }
 
     private static native int getNativeRawOffset() /*-{

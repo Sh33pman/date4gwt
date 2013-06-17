@@ -129,7 +129,7 @@ public final class DateTimeFormatter {
      *
      * @param aFormat uses the syntax described by {@link DateTime#format(String)}.
      */
-    DateTimeFormatter(String aFormat) {
+    public DateTimeFormatter(String aFormat) {
         fFormat = aFormat;
         fLocale = null;
         fCustomLocalization = null;
@@ -144,7 +144,7 @@ public final class DateTimeFormatter {
      * @param aLocale used to generate text for Month, Weekday, and AM-PM indicator; required only by patterns which return localized
      *                text, instead of numeric forms for date-time elements.
      */
-    DateTimeFormatter(String aFormat, java.util.Locale aLocale) {
+    public DateTimeFormatter(String aFormat, java.util.Locale aLocale) {
         fFormat = aFormat;
         fLocale = aLocale;
         fCustomLocalization = null;
@@ -162,7 +162,7 @@ public final class DateTimeFormatter {
      * @param aWeekdays       contains text for all 7 weekdays, starting with Sunday; size must be 7.
      * @param aAmPmIndicators contains text for A.M and P.M. indicators (in that order); size must be 2.
      */
-    DateTimeFormatter(String aFormat, List<String> aMonths, List<String> aWeekdays, List<String> aAmPmIndicators) {
+    public DateTimeFormatter(String aFormat, List<String> aMonths, List<String> aWeekdays, List<String> aAmPmIndicators) {
         fFormat = aFormat;
         fLocale = null;
         fCustomLocalization = new CustomLocalization(aMonths, aWeekdays, aAmPmIndicators);
