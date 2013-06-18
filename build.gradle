@@ -107,20 +107,21 @@ void compileModule(buildDir, fullModuleName) {
 
 
     def cp = []
-    cp += sourceSets.main.java.srcDirs            // Java source
-    cp += sourceSets.main.output.resourcesDir     // Generated resources
-    cp += sourceSets.main.output.classesDir       // Generated classes
-//    classpath += sourceSets.main.output.compileClasspath // Deps
-    cp += configurations.compile.files
+    cp += project.sourceSets.main.java.srcDirs            // Java source
+    cp += project.sourceSets.main.output.resourcesDir     // Generated resources
+    cp += project.sourceSets.main.output.classesDir       // Generated classes
+//    classpath += project.sourceSets.main.output.compileClasspath // Deps
+    cp += project.configurations.compile.files
 
-    configurations.compile.dependencies.
+    project.configurations.compile.dependencies.
             findAll{ Object o -> o instanceof ProjectDependency }.
             each { ProjectDependency dependency ->
                 cp.addAll(collectDependencies(dependency))
             }
+    cp = project.files(cp)
 
     javaexec {
-        classpath = project.files(cp)
+        classpath = cp
         main = 'com.google.gwt.dev.Compiler'
         args = [
                 parameters,
