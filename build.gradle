@@ -110,7 +110,6 @@ void compileModule(buildDir, fullModuleName) {
     cp += project.sourceSets.main.java.srcDirs            // Java source
     cp += project.sourceSets.main.output.resourcesDir     // Generated resources
     cp += project.sourceSets.main.output.classesDir       // Generated classes
-//    classpath += project.sourceSets.main.output.compileClasspath // Deps
     cp += project.configurations.compile.files
 
     project.configurations.compile.dependencies.

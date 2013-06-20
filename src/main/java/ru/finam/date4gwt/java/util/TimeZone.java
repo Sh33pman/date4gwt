@@ -1,5 +1,7 @@
 package java.util;
 
+import com.google.gwt.core.client.JsDate;
+
 /**
  * User: korzhevskiy
  * Date: 04.06.13
@@ -18,22 +20,20 @@ public final class TimeZone {
     }
 
     public static TimeZone getTimeZone(String id) {
-        if ("UTC".equals(id)) {
-            return new TimeZone(true);
-        }
-        throw new UnsupportedOperationException();
+        boolean isUTC = "UTC".equals(id);
+        return new TimeZone(isUTC);
     }
 
     public int getRawOffset() {
-        return isUTC ? 0 : getNativeRawOffset();
+        return isUTC ? 0 : getNativeRawOffset(JsDate.create());
     }
 
     public int getOffset(long date) {
-        throw new UnsupportedOperationException();
+        return getNativeRawOffset(JsDate.create(date));
     }
 
-    private static native int getNativeRawOffset() /*-{
-        return new Date().getTimezoneOffset() * 60 * 1000;
-    }-*/;
+    private static int getNativeRawOffset(JsDate date) {
+        return date.getTimezoneOffset() * 60 * 1000;
+    }
 
 }
