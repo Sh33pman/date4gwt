@@ -1,6 +1,5 @@
 package hirondelle.date4j;
 
-import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -296,10 +295,9 @@ import java.util.TimeZone;
  * When a <tt>DateTime</tt> is passed as a parameter to an SQL statement, the <tt>DateTime</tt> can always
  * be formatted into a <tt>String</tt> of a form accepted by the database, using one of the <tt>format</tt> methods.
  */
-public final class DateTime implements Comparable<DateTime>, Serializable {
+public final class DateTime implements Comparable<DateTime> {
 
     private static final int EQUAL = 0;
-    private static final long serialVersionUID = -1300068157085493891L;
     private static int EPOCH_MODIFIED_JD = 2400000;
     /**
      * The text form of a date. @serial
